@@ -1,6 +1,6 @@
 # SPACE
 
-Code for SPACE, a robot-aware 3D policy.
+Code for SPACE policy.
 
 Experiments folder:
 
