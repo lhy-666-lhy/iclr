@@ -1,0 +1,23 @@
+# Basic experiment configuration (keep unchanged)
+policy_name: null
+task_name: null
+task_config: null
+ckpt_setting: null
+seed: null
+instruction_type: unseen
+
+# Add Parameters You Need
+config_name: robot_space
+checkpoint_num: 3000
+space_task: demo_task
+expert_data_num: null
+use_rgb: false
+# Must match training. Canonical ids:
+#   main
+#   ab1_ex1 | ab1_ex2 | ab1_ex3 | ab1_ex4
+#   ab2_ex2 | ab2_ex3 | ab2_ex4
+#   ab3_ex1 … ab3_ex6
+#   ab4_ex1 | ab4_ex2 | ab4_ex3
+# (short aliases ex1/geo/surf8/pn2 still work)
+robot_aware_encoder_type: main
+use_robot_aware: true

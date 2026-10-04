@@ -1,0 +1,53 @@
+defaults:
+    - _self_
+    - method: PPI_rp1
+
+rlbench:
+    task_name: "drawer"
+    tasks: [bimanual_put_item_in_drawer]
+    demo_path: your/test/demo/dir
+    lang_path: data/training_processed/instruction_embeddings.pkl
+    episode_length: 300
+    cameras_pcd: ["over_shoulder_left","over_shoulder_right","overhead","wrist_right","wrist_left","front"]
+    cameras: ["over_shoulder_left","over_shoulder_right","overhead","wrist_right","wrist_left","front"]
+    camera_resolution: [256, 256]
+    scene_bounds: [-0.3, -0.5, 0.6, 0.7, 0.5, 1.6]
+    include_lang_goal_in_obs: True
+    time_in_state: True
+    headless: True
+    gripper_mode: 'BimanualDiscrete'
+    arm_action_mode: 'BimanualEndEffectorPoseViaPlanning'
+    action_mode: 'BimanualMoveArmThenGripper'
+    query_freq: 20
+
+framework:
+    tensorboard_logging: True
+    csv_logging: True
+    gpu: 0
+    logdir: exp_logs/eval
+    weightsdir: exp_logs/ckpt/${rlbench.tasks[0]}
+    start_seed: 0
+    record_every_n: 0
+
+    eval_envs: 1
+    eval_from_eps_number: 0
+    eval_episodes: 100
+    eval_type: 1101
+    eval_save_metrics: False
+    eval_processes: 1
+
+    training_iterations: 100
+    weight_name: "train_ppi_rp1_8gpus_drawer_rp1_ppi_rp1_20260831-drawer-fullmesh_seed0"
+    ckpt_name: "epoch800_model"
+    jump_step: 1
+
+cinematic_recorder:
+    enabled: False
+    camera_resolution: [1280, 720]
+    fps: 30
+    rotate_speed: 0.005
+    save_path: ${framework.logdir}/${rlbench.task_name}/${framework.weight_name}
+
+hydra:
+  job:
+    chdir: false

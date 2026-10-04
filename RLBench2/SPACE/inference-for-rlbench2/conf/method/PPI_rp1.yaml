@@ -1,0 +1,59 @@
+name: 'PPI_rp1'
+
+agent_type: 'bimanual'
+robot_name: 'bimanual'
+
+task:
+    name: ${rlbench.task_name}
+    task_name: ${rlbench.task_name}
+
+alg_name: "ppi_rp1"
+addition_info: "eval_rp1"
+seed: 0
+
+task_name: ${method.task.name}
+
+policy:
+    encoder_output_dim: 288
+    horizon_keyframe: 4
+    horizon_continuous: 50
+    n_action_steps: 54
+    n_obs_steps: 1
+
+    noise_scheduler_cfg:
+      num_train_timesteps: 1000
+      prediction_type: epsilon
+
+    num_inference_steps: 1000
+    use_lang: true
+    what_condition: 'ppi'
+    predict_point_flow: true
+    pointcloud_encoder_cfg:
+      in_channels: 387
+      out_channels: ${method.policy.encoder_output_dim}
+      use_bn: true
+
+    # DualPanda full-link mesh (matches PPI_rp1 training)
+    robot_embodiment: dual_panda
+    robot_dim: 128
+    robot_points_per_link: 16
+    robot_use_geometry: true
+    robot_use_topology: true
+    robot_pc_backbone: pointnet
+    robot_use_type_embed: true
+
+    pointflow_num: 200
+    text_prompt: "a small white cube."
+    prompt_type: "box"
+    sample_type: "rps"
+    sam_cameras: ["over_shoulder_left"]
+    bounding_box: [[-0.5, -0.55, 0.77], [1.1, 0.55, 1.98]]
+    prediction_type: keyframe_continuous
+    use_pc_color: false
+    fps_num: 6144
+
+    sam_checkpoint_path: "pretrained_models/sam_vit_b_01ec64.pth"
+    gdino_config_path: "repos/GroundingDINO/groundingdino/config/GroundingDINO_SwinB_cfg.py"
+    gdino_checkpoint_path: "pretrained_models/groundingdino_swinb_cogcoor.pth"
+    bert_model_path: ""
+    instruction_embeddings_path: "data/training_processed/instruction_embeddings.pkl"
